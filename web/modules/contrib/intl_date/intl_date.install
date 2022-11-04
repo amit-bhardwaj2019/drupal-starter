@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Installation-related logic.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function intl_date_requirements($phase) {
+  $requirements['intl_date'] = [
+    'title' => t('Intl extension'),
+    'description' => t('The intl_date module heavily depends on the Intl PHP extension'),
+    'severity' => extension_loaded('intl') ? REQUIREMENT_OK : REQUIREMENT_ERROR,
+  ];
+  return $requirements;
+}

@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * File containing install, uninstall and update hooks.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Move old 'term' to proper 'taxonomy_term' entity ID in config.
+ */
+function pluggable_entity_view_builder_update_8101(&$sandbox) {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('pluggable_entity_view_builder.settings');
+  $enabled_entity_types = $config->get('enabled_entity_types');
+  // Move old 'term' config to 'taxonomy_term'.
+  $enabled_entity_types['taxonomy_term'] = $enabled_entity_types['term'] === 'term' ? 'taxonomy_term' : $enabled_entity_types['term'];
+  // Unset the old value.
+  unset($enabled_entity_types['term']);
+  $config->set('enabled_entity_types', $enabled_entity_types);
+  $config->save(TRUE);
+}

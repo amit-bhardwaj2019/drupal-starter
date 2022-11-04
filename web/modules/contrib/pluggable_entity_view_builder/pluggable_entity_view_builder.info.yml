@@ -1,0 +1,12 @@
+name: Pluggable entity view builder
+type: module
+description: Define entity view builder pluggins, for easier theming.
+package: Pluggable entity view builder
+core: 8.x
+core_version_requirement: ^8 || ^9
+configure: pluggable_entity_view_builder.settings_form
+
+# Information added by Drupal.org packaging script on 2022-05-07
+version: '1.1.12'
+project: 'pluggable_entity_view_builder'
+datestamp: 1651948944

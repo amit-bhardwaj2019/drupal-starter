@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Intl Date module.
+ */
+
+/**
+ * Implements hook_entity_type_build().
+ */
+function intl_date_entity_type_build(array &$entity_types) {
+  /** @var $entity_types \Drupal\Core\Entity\EntityTypeInterface[] */
+  $entity_types['intl_date_format']
+    ->setFormClass('add', 'Drupal\intl_date\Form\DateFormatAddForm')
+    ->setFormClass('edit', 'Drupal\intl_date\Form\DateFormatEditForm')
+    ->setFormClass('delete', 'Drupal\intl_date\Form\DateFormatDeleteForm')
+    ->setListBuilderClass('Drupal\intl_date\IntlDateFormatListBuilder')
+    ->setLinkTemplate('edit-form', '/admin/config/regional/date-time/intl-formats/manage/{date_format}')
+    ->setLinkTemplate('delete-form', '/admin/config/regional/date-time/intl-formats/manage/{date_format}/delete')
+    ->setLinkTemplate('collection', '/admin/config/regional/date-time/intl-formats');
+}

@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {  }
+id: fallback
+label: 'Fallback date format'
+pattern: 'eee, MM/dd/yyyy - HH:mm'

@@ -1,0 +1,11 @@
+name: Pluggable entity view builder test
+type: module
+description: Defines entity view builder plugins for entities provided by entity_test module.
+package: Testing
+core: 8.x
+core_version_requirement: ^8 || ^9
+
+# Information added by Drupal.org packaging script on 2022-05-07
+version: '1.1.12'
+project: 'pluggable_entity_view_builder'
+datestamp: 1651948944

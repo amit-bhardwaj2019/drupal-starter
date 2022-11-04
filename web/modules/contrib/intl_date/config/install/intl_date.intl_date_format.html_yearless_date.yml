@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {  }
+id: html_yearless_date
+label: 'HTML Yearless date'
+pattern: MM-d

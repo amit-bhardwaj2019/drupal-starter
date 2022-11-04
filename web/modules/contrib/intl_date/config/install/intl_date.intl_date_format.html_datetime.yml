@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {  }
+id: html_datetime
+label: 'HTML Datetime'
+pattern: "yyyy-MM-d'T'HH:mm:ssxx"

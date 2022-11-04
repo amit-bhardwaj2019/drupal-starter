@@ -1,0 +1,6 @@
+intl_date.date_format_add:
+  route_name: intl_date.date_format_add
+  title: 'Add format'
+  weight: -10
+  appears_on:
+    - entity.intl_date_format.collection

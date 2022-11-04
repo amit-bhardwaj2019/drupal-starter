@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Pluggable entity view builder test module.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\pluggable_entity_view_builder\EntityViewBuilder;
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function pluggable_entity_view_builder_test_entity_type_alter(array &$entity_types) {
+  if (in_array('entity_test_mul', array_keys($entity_types))) {
+    // Override the view builder to a PEVB plugin provided by this module.
+    $entity_types['entity_test_mul']->setViewBuilderClass(EntityViewBuilder::class);
+  }
+}
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function pluggable_entity_view_builder_test_entity_base_field_info(EntityTypeInterface $entity_type) {
+  $entity_types = [
+    'entity_test_mul',
+    'node',
+  ];
+  if (!in_array($entity_type->id(), $entity_types)) {
+    return [];
+  }
+  // Add a reference field to the entity type which can reference entities of
+  // its own type.
+  $fields['field_reference'] = BaseFieldDefinition::create('entity_reference')
+    ->setLabel("{$entity_type->getBundleLabel()} reference")
+    ->setSetting('target_type', $entity_type->id())
+    ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
+  return $fields;
+}

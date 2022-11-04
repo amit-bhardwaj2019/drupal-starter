@@ -1,0 +1,6 @@
+entity.intl_date_format.collection:
+  title: 'Intl Date and time formats'
+  parent: system.admin_config_regional
+  description: 'Configure how internationalized dates and times are displayed.'
+  route_name: entity.intl_date_format.collection
+  weight: -9

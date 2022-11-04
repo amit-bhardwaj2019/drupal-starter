@@ -1,0 +1,31 @@
+entity.intl_date_format.collection:
+  path: '/admin/config/regional/intl-date-time'
+  defaults:
+    _entity_list: 'intl_date_format'
+    _title: 'Intl Date and time formats'
+  requirements:
+    _permission: 'administer site configuration'
+
+intl_date.date_format_add:
+  path: '/admin/config/regional/intl-date-time/formats/add'
+  defaults:
+    _entity_form: 'intl_date_format.add'
+    _title: 'Add intl date format'
+  requirements:
+    _permission: 'administer site configuration'
+
+entity.intl_date_format.edit_form:
+  path: '/admin/config/regional/intl-date-time/formats/manage/{intl_date_format}'
+  defaults:
+    _entity_form: 'intl_date_format.edit'
+    _title: 'Edit intl date format'
+  requirements:
+    _entity_access: 'intl_date_format.update'
+
+entity.intl_date_format.delete_form:
+  path: '/admin/config/regional/intl-date-time/formats/manage/{intl_date_format}/delete'
+  defaults:
+    _entity_form: 'intl_date_format.delete'
+    _title: 'Delete intl date format'
+  requirements:
+    _entity_access: 'intl_date_format.delete'

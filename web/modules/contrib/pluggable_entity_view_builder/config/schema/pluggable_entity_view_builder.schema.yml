@@ -1,0 +1,9 @@
+pluggable_entity_view_builder.settings:
+  type: config_object
+  label: 'Pluggable entity view builder settings'
+  mapping:
+    enabled_entity_types:
+      type: sequence
+      label: 'Enabled entity types'
+      sequence:
+        type: string

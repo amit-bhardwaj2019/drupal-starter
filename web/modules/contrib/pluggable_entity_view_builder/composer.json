@@ -1,0 +1,12 @@
+{
+    "name": "drupal/pluggable_entity_view_builder",
+    "description": "Define entity view builders as plugins, defined per bundle.",
+    "type": "drupal-module",
+    "support": {
+        "issues": "https://gitlab.com/drupalspoons/pluggable_entity_view_builder/-/issues",
+        "source": "https://gitlab.com/drupalspoons/pluggable_entity_view_builder"
+    },
+    "license": "GPL-2.0-or-later",
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

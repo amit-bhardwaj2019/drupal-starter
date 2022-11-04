@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {  }
+id: short
+label: 'Default short date'
+pattern: 'MM/dd/yyyy - HH:mm'

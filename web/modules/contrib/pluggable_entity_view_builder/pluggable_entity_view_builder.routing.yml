@@ -1,0 +1,7 @@
+pluggable_entity_view_builder.settings_form:
+  path: '/admin/config/system/pluggable-entity-view-builder'
+  defaults:
+    _title: 'Pluggable entity view builder settings'
+    _form: 'Drupal\pluggable_entity_view_builder\Form\SettingsForm'
+  requirements:
+    _permission: 'administer pluggable_entity_view_builder configuration'

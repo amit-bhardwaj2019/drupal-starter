@@ -1,0 +1,13 @@
+intl_date.intl_date_format.*:
+  type: config_entity
+  label: 'Intl Date format'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    pattern:
+      type: label
+      label: 'UTF-8 ICU date format'

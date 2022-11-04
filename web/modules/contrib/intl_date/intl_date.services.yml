@@ -1,0 +1,6 @@
+services:
+  intl_date.twig_extension:
+    class: Drupal\intl_date\TwigExtension
+    tags:
+      - { name: twig.extension }
+

@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {  }
+id: html_year
+label: 'HTML Year'
+pattern: 'yyyy'

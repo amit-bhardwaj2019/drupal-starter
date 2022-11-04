@@ -1,0 +1,5 @@
+pluggable_entity_view_builder.settings_form:
+  title: Pluggable entity view builder
+  parent: system.admin_config_system
+  description: 'Manage pluggable entity view builder settings.'
+  route_name: pluggable_entity_view_builder.settings_form

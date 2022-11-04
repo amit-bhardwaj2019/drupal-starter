@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {  }
+id: html_week
+label: 'HTML Week'
+pattern: "yyyy-'W'ww"

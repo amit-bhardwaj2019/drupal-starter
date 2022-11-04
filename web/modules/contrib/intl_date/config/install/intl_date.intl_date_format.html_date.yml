@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {  }
+id: html_date
+label: 'HTML Date'
+pattern: yyyy-MM-d

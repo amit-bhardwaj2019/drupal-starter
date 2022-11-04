@@ -1,0 +1,115 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Pluggable entity view builder module.
+ *
+ * @DCG
+ * This file is no longer required in Drupal 8.
+ * @see https://www.drupal.org/node/2217931
+ */
+
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\pluggable_entity_view_builder\BlockContentViewBuilder;
+use Drupal\pluggable_entity_view_builder\CommentViewBuilder;
+use Drupal\pluggable_entity_view_builder\EntityViewBuilder;
+use Drupal\pluggable_entity_view_builder\NodeViewBuilder;
+use Drupal\pluggable_entity_view_builder\ParagraphViewBuilder;
+use const Drupal\pluggable_entity_view_builder\CommentViewBuilder;
+use const Drupal\pluggable_entity_view_builder\EntityViewBuilder;
+
+/**
+ * Implements hook_entity_type_alter().
+ *
+ * @throws \Exception
+ */
+function pluggable_entity_view_builder_entity_type_alter(array &$entity_types) {
+  $config = \Drupal::service('config.factory')->getEditable('pluggable_entity_view_builder.settings');
+  $enabled_entity_types = $config->get('enabled_entity_types');
+  if (empty($enabled_entity_types)) {
+    // No enabled entity types.
+    return;
+  }
+
+  // Map between the entity type and the overriding class.
+  $map = [
+    'block_content' => BlockContentViewBuilder::class,
+    'comment' => CommentViewBuilder::class,
+    'media' => EntityViewBuilder::class,
+    'node' => NodeViewBuilder::class,
+    'taxonomy_term' => EntityViewBuilder::class,
+    'user' => EntityViewBuilder::class,
+  ];
+
+  // Integrate with Paragraphs if it's enabled.
+  if (\Drupal::moduleHandler()->moduleExists('paragraphs')) {
+    $map['paragraph'] = ParagraphViewBuilder::class;
+  }
+
+  foreach ($enabled_entity_types as $enabled_entity_type) {
+    if (empty($entity_types[$enabled_entity_type])) {
+      // Entity type is not known yet. We are probably inside a Drupal
+      // installation.
+      continue;
+    }
+
+    $class = $map[$enabled_entity_type];
+
+    if (empty($class)) {
+      throw new \Exception('@type is not a valid Entity type. Only certain core entities are defined in the Pluggable entity view builder module. If you would like to override other entities, or have different implementation you should implement your custom hook similar to pluggable_entity_view_builder_entity_type_alter.');
+    }
+    $entity_types[$enabled_entity_type]->setViewBuilderClass($class);
+  }
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * @see https://www.drupal.org/project/drupal/issues/2666578#comment-12680906
+ */
+function pluggable_entity_view_builder_theme($existing, $type, $theme, $path) {
+  // This very simple theme hook allows us to wrap our entity view render arrays
+  // into custom template and take care of attributes required to render
+  // contextual links correctly.
+  return [
+    'block_content_contextual_links_wrap' => [
+      'variables' => [
+        'content' => [],
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_form_entity_view_display_edit_form_alter().
+ */
+function pluggable_entity_view_builder_form_entity_view_display_edit_form_alter(&$form, FormStateInterface $form_state) {
+  $config = \Drupal::service('config.factory')->getEditable('pluggable_entity_view_builder.settings');
+  $enabled_entity_types = $config->get('enabled_entity_types');
+  $entity_type_id = $form['#entity_type'];
+
+  if (empty($enabled_entity_types[$entity_type_id])) {
+    // Entity type not enabled.
+    return;
+  }
+
+  // Check if we have a plugin to take over the bundle of this entity.
+  $plugin_id = $entity_type_id . '.' . $form['#bundle'];
+  $entity_view_builder_plugin_manager = \Drupal::service('plugin.manager.pluggable_entity_view_builder.entity_view_builder');
+
+  try {
+    $plugin_definition = $entity_view_builder_plugin_manager->getDefinition($plugin_id);
+  }
+  catch (PluginNotFoundException $e) {
+    // We don't have a plugin.
+    return;
+  }
+
+  $messenger = \Drupal::messenger();
+  $message = t('Some or all view modes for this entity type and bundle are overridden by the Pluggable entity view builder module. That is, any change you will perform in this form might have no effect on the output. Instead, any change should be directly coded into the <code>@class</code> plugin.', [
+    '@class' => $plugin_definition['class'],
+  ]);
+  $messenger->addMessage($message, MessengerInterface::TYPE_WARNING);
+}
